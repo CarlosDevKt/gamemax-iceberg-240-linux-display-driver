@@ -1,27 +1,27 @@
 # ❄️ Gamemax Iceberg 240 – Linux Display Driver 🐧
 
-Este projeto é um driver em **Python** desenvolvido para controlar o display LCD do water cooler  
-**Gamemax Iceberg 240** no Linux.
+This project is a **Python-based driver** developed to control the LCD display of the  
+**Gamemax Iceberg 240** water cooler on Linux.
 
-Ele permite monitorar e exibir em tempo real:
+It allows real-time monitoring and display of:
 
-- 🌡️ Temperatura da CPU  
-- 📊 Uso da CPU (%)  
-- 🌀 Rotação das ventoinhas (RPM)
-
----
-
-## 🚀 Funcionalidades
-
-- Monitoramento de CPU em tempo real
-- Leitura de temperatura (Intel / AMD)
-- Leitura de RPM do FAN 2
-- Compatível com **Python 3.14+**
-- Testado no **Fedora 43**
+- 🌡️ CPU temperature  
+- 📊 CPU usage (%)  
+- 🌀 Fan rotation speed (RPM)
 
 ---
 
-## 🛠️ Pré-requisitos
+## 🚀 Features
+
+- Real-time CPU monitoring  
+- Temperature reading (Intel / AMD)  
+- FAN 2 RPM reading  
+- Compatible with **Python 3.14+**  
+- Tested on **Fedora 43**
+
+---
+
+## 🛠️ Requirements
 
 ### 🟦 Fedora / Nobara
 ~~~bash
@@ -37,28 +37,28 @@ pip install psutil pyusb --break-system-packages
 
 ---
 
-## ⚙️ Configuração Crítica de Hardware
+## ⚙️ Critical Hardware Configuration
 
-⚠️ Siga a seção 1️⃣ **apenas se**:
-- RPM aparecer como `0`
-- Temperatura aparecer zerada
-- O dispositivo USB não for detectado
+⚠️ Follow **section 1️⃣ only if**:
+- RPM shows as `0`
+- Temperature shows as `0`
+- The USB device is not detected
 
 ---
 
-### 1️⃣ Correção de Conflito ACPI (Kernel)
+### 1️⃣ ACPI Conflict Fix (Kernel)
 
-Edite o GRUB:
+Edit the GRUB configuration:
 ~~~bash
 sudo nano /etc/default/grub
 ~~~
 
-Adicione dentro de `GRUB_CMDLINE_LINUX_DEFAULT`:
+Add the following inside `GRUB_CMDLINE_LINUX_DEFAULT`:
 ~~~text
 acpi_enforce_resources=lax
 ~~~
 
-Atualize o GRUB:
+Update GRUB:
 
 **Ubuntu / Debian**
 ~~~bash
@@ -70,18 +70,18 @@ sudo update-grub
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ~~~
 
-➡️ Reinicie o sistema.
+➡️ Reboot the system.
 
 ---
 
-### 2️⃣ Ativação dos Sensores
+### 2️⃣ Sensor Activation
 ~~~bash
 sudo sensors-detect --auto
 ~~~
 
 ---
 
-### 3️⃣ Permissões USB (udev)
+### 3️⃣ USB Permissions (udev)
 ~~~bash
 echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="5131", ATTR{idProduct}=="2007", MODE="0666"' | sudo tee /etc/udev/rules.d/99-gamemax.rules
 sudo udevadm control --reload-rules && sudo udevadm trigger
@@ -89,17 +89,18 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 
 ---
 
-## 💻 Como Executar
+## 💻 How to Run
 ~~~bash
 python cooler.py
 ~~~
 
 ---
 
-## 📌 Observações
+## 📌 Notes
 
-- Verifique se o dispositivo aparece em `lsusb`
-- Não é necessário rodar como root após configurar o udev
-- Secure Boot pode bloquear sensores
-- Se quiser rodar o scrip na inicialização use o systemctl, use este tuturial: https://www.codementor.io/@ufuksfk/how-to-run-a-python-script-in-linux-with-systemd-1nh2x3hi0e
+- Check if the device appears in `lsusb`
+- No need to run as root after configuring udev
+- Secure Boot may block sensor modules
+- If you want to run the script at startup using systemd, follow this tutorial:  
+  https://www.codementor.io/@ufuksfk/how-to-run-a-python-script-in-linux-with-systemd-1nh2x3hi0e
 ---
